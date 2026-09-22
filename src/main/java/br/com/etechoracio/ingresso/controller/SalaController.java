@@ -1,7 +1,9 @@
 package br.com.etechoracio.ingresso.controller;
 
+import br.com.etechoracio.ingresso.dto.SalaRequestDTO;
 import br.com.etechoracio.ingresso.dto.SalaResponseDTO;
 import br.com.etechoracio.ingresso.service.SalaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,16 @@ public class SalaController {
         return salaService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<SalaResponseDTO> criar(
+            @RequestBody SalaRequestDTO salaRequestDTO
+    ) {
+        SalaResponseDTO salaCriada = salaService.criar(salaRequestDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(salaCriada);
     }
 
 }

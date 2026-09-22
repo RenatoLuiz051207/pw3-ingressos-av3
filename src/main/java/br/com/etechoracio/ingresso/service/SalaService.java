@@ -1,6 +1,8 @@
 package br.com.etechoracio.ingresso.service;
 
+import br.com.etechoracio.ingresso.dto.SalaRequestDTO;
 import br.com.etechoracio.ingresso.dto.SalaResponseDTO;
+import br.com.etechoracio.ingresso.entity.Sala;
 import br.com.etechoracio.ingresso.mapper.SalaMapper;
 import br.com.etechoracio.ingresso.repository.SalaRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,14 @@ public class SalaService {
     public Optional<SalaResponseDTO> buscarPorId(Long id) {
         return salaRepository.findByIdAndDataExclusaoIsNull(id)
                 .map(salaMapper::toResponseDTO);
+    }
+
+    public SalaResponseDTO criar(SalaRequestDTO salaRequestDTO) {
+        Sala sala = salaMapper.toEntity(salaRequestDTO);
+
+        Sala salaSalva = salaRepository.save(sala);
+
+        return salaMapper.toResponseDTO(salaSalva);
     }
 
 }
